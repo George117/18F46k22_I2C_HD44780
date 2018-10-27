@@ -9,7 +9,7 @@
 #include <xc.h>
 #include <pic18f46k22.h>
 #include "bit_settings.h"
-
+#include "i2c_display.h"
 
 void config()
 {
@@ -43,7 +43,13 @@ void config()
     
     TRISCbits.TRISC3=1;//i2c
     TRISCbits.TRISC4=1;//i2c
-
+    I2C_Master_Init(100000);
+    __delay_ms(100);
+    Lcd_Init();
+    Lcd_Clear();
+    Cursor_Off();
+    Lcd_Set_Cursor(1,1);
+    Lcd_Write_String("Test");
     __delay_ms(100);
 }
 

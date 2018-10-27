@@ -17,6 +17,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 "164 c:\program files (x86)\microchip\xc8\v1.44\include\pic18.h
 [v __delay `JF6949 ~T0 @X0 0 e ]
 [p i __delay ]
+"49 i2c_display.h
+[v _Lcd_Clear `(v ~T0 @X0 0 ef ]
+"50
+[v _Lcd_Set_Cursor `(v ~T0 @X0 0 ef2`uc`uc ]
+"52
+[v _Lcd_Write_Char `(v ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -6657,45 +6663,101 @@ Version 3.2 HI-TECH Software Intermediate Code
 "78
 [p x EBTRB=OFF ]
 [; ;config.h: 3: void config();
+[; ;i2c_display.h: 36: void I2C_Master_Init(const unsigned long c);
+[; ;i2c_display.h: 37: void I2C_Master_Wait();
+[; ;i2c_display.h: 38: void I2C_Master_Start();
+[; ;i2c_display.h: 39: void I2C_Master_RepeatedStart();
+[; ;i2c_display.h: 40: void I2C_Master_Stop();
+[; ;i2c_display.h: 41: void I2C_Master_Write(unsigned d);
+[; ;i2c_display.h: 42: void I2C_Write_Display(unsigned d);
+[; ;i2c_display.h: 44: unsigned short I2C_Master_Read(unsigned short a);
+[; ;i2c_display.h: 47: void Lcd_Port(char data);
+[; ;i2c_display.h: 48: void Lcd_Cmd(char a);
+[; ;i2c_display.h: 49: void Lcd_Clear();
+[; ;i2c_display.h: 50: void Lcd_Set_Cursor(char a, char b);
+[; ;i2c_display.h: 51: void Lcd_Init();
+[; ;i2c_display.h: 52: void Lcd_Write_Char(char a);
+[; ;i2c_display.h: 53: void Lcd_Write_String(char *a);
+[; ;i2c_display.h: 54: void Lcd_Shift_Right();
+[; ;i2c_display.h: 55: void Lcd_Shift_Left();
+[; ;i2c_display.h: 56: void Cursor_On();
+[; ;i2c_display.h: 57: void Cursor_Off();
+[; ;i2c_display.h: 58: void Cursor_Left();
+[; ;i2c_display.h: 59: void Cursor_Right();
 [v $root$_main `(v ~T0 @X0 0 e ]
-"14 main.c
+"15 main.c
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 14: void main(void) {
+[; ;main.c: 15: void main(void) {
 [e :U _main ]
 [f ]
-[; ;main.c: 15: config();
-"15
+[; ;main.c: 16: config();
+"16
 [e ( _config ..  ]
-[; ;main.c: 17: while(1)
-"17
-[e :U 851 ]
-[; ;main.c: 18: {
+[; ;main.c: 18: while(1)
 "18
-{
-[; ;main.c: 19: LATDbits.LATD0=1;
+[e :U 851 ]
+[; ;main.c: 19: {
 "19
-[e = . . _LATDbits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 20: _delay((unsigned long)((1)*(64000000/4000.0)));
+{
+[; ;main.c: 20: LATDbits.LATD0=1;
 "20
-[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-[; ;main.c: 21: LATDbits.LATD0=0;
+[e = . . _LATDbits 0 0 -> -> 1 `i `uc ]
+[; ;main.c: 21: _delay((unsigned long)((10)*(64000000/4000.0)));
 "21
-[e = . . _LATDbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 22: _delay((unsigned long)((1)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 22: LATDbits.LATD0=0;
 "22
-[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[e = . . _LATDbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 23: _delay((unsigned long)((10)*(64000000/4000.0)));
 "23
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 24: Lcd_Clear();
+"24
+[e ( _Lcd_Clear ..  ]
+[; ;main.c: 25: for(int i=0x41;i<0x5A;i++)
+"25
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 65 `i ]
+[e $ < _i -> 90 `i 853  ]
+[e $U 854  ]
+"26
+[e :U 853 ]
+[; ;main.c: 26: {
+{
+[; ;main.c: 27: Lcd_Set_Cursor(1,1);
+"27
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 28: Lcd_Write_Char(i);
+"28
+[e ( _Lcd_Write_Char (1 -> _i `uc ]
+[; ;main.c: 29: _delay((unsigned long)((500)*(64000000/4000.0)));
+"29
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"30
+}
+"25
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 90 `i 853  ]
+[e :U 854 ]
+"30
+}
+[; ;main.c: 30: }
+[; ;main.c: 32: _delay((unsigned long)((1)*(64000000/4000.0)));
+"32
+[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"33
 }
 [e :U 850 ]
-"17
+"18
 [e $U 851  ]
 [e :U 852 ]
-[; ;main.c: 23: }
-[; ;main.c: 25: return;
-"25
+[; ;main.c: 33: }
+[; ;main.c: 35: return;
+"35
 [e $UE 849  ]
-[; ;main.c: 26: }
-"26
+[; ;main.c: 36: }
+"36
 [e :UE 849 ]
 }
